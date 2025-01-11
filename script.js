@@ -10,6 +10,8 @@ const resetButton = document.getElementById('reset');
 const modeText = document.getElementById('mode-text');
 const toggleModeButton = document.getElementById('toggle-mode');
 const progressBar = document.getElementById('progress');
+const workDurationInput = document.getElementById('workDuration');
+const breakDurationInput = document.getElementById('breakDuration');
 
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
@@ -32,9 +34,9 @@ function toggleTimer() {
             updateDisplay();
             
             if (timeLeft === 0) {
-                // Switch between work and break
                 isWorkTime = !isWorkTime;
-                timeLeft = isWorkTime ? 25 * 60 : 5 * 60;
+                timeLeft = isWorkTime ? workDurationInput.value * 60 : breakDurationInput.value * 60;
+                totalTime = timeLeft;
                 modeText.textContent = isWorkTime ? 'Work Time' : 'Break Time';
                 updateDisplay();
             }
@@ -51,7 +53,7 @@ function resetTimer() {
     clearInterval(timerId);
     timerId = null;
     isWorkTime = true;
-    timeLeft = 25 * 60;
+    timeLeft = workDurationInput.value * 60;
     totalTime = timeLeft;
     startButton.textContent = 'Start';
     modeText.textContent = 'Work Time';
@@ -68,8 +70,8 @@ function resetTimer() {
 
 function toggleMode() {
     isWorkTime = !isWorkTime;
-    timeLeft = isWorkTime ? 25 * 60 : 5 * 60;
-    totalTime = timeLeft; // Set new total time
+    timeLeft = isWorkTime ? workDurationInput.value * 60 : breakDurationInput.value * 60;
+    totalTime = timeLeft;
     modeText.textContent = isWorkTime ? 'Work Time' : 'Break Time';
     toggleModeButton.textContent = isWorkTime ? 'Switch to Break' : 'Switch to Work';
     
@@ -94,6 +96,23 @@ function toggleMode() {
 startButton.addEventListener('click', toggleTimer);
 resetButton.addEventListener('click', resetTimer);
 toggleModeButton.addEventListener('click', toggleMode);
+
+// Add input event listeners
+workDurationInput.addEventListener('change', () => {
+    if (isWorkTime && timerId === null) {
+        timeLeft = workDurationInput.value * 60;
+        totalTime = timeLeft;
+        updateDisplay();
+    }
+});
+
+breakDurationInput.addEventListener('change', () => {
+    if (!isWorkTime && timerId === null) {
+        timeLeft = breakDurationInput.value * 60;
+        totalTime = timeLeft;
+        updateDisplay();
+    }
+});
 
 // Initial display update
 updateDisplay(); 

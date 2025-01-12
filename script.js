@@ -18,8 +18,16 @@ function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
     
+    // Format time strings
+    const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    // Update timer display
     minutesDisplay.textContent = minutes.toString().padStart(2, '0');
     secondsDisplay.textContent = seconds.toString().padStart(2, '0');
+    
+    // Update document title with timer and current mode
+    const mode = isWorkTime ? 'Work' : 'Break';
+    document.title = `${timeString} - ${mode} | Peaceful Pomodoro`;
     
     // Update progress bar
     const progress = ((totalTime - timeLeft) / totalTime) * 100;
@@ -93,6 +101,7 @@ function resetTimer() {
     progressBar.style.background = 'linear-gradient(to right, #48bb78, #4299e1)';
     
     updateDisplay();
+    document.title = 'Peaceful Pomodoro';
 }
 
 function toggleMode() {

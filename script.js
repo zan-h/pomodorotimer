@@ -12,6 +12,7 @@ const toggleModeButton = document.getElementById('toggle-mode');
 const progressBar = document.getElementById('progress');
 const workDurationInput = document.getElementById('workDuration');
 const breakDurationInput = document.getElementById('breakDuration');
+const backgroundVideo = document.getElementById('background-video');
 
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
@@ -29,6 +30,10 @@ function toggleTimer() {
     if (timerId === null) {
         // Start the timer
         startButton.textContent = 'Pause';
+        if (isWorkTime) {
+            backgroundVideo.play();
+            backgroundVideo.classList.add('video-playing');
+        }
         timerId = setInterval(() => {
             timeLeft--;
             updateDisplay();
@@ -38,6 +43,18 @@ function toggleTimer() {
                 timeLeft = isWorkTime ? workDurationInput.value * 60 : breakDurationInput.value * 60;
                 totalTime = timeLeft;
                 modeText.textContent = isWorkTime ? 'Work Time' : 'Break Time';
+                
+                // Handle video on mode change
+                if (isWorkTime) {
+                    backgroundVideo.play();
+                    backgroundVideo.classList.add('video-playing');
+                } else {
+                    backgroundVideo.classList.remove('video-playing');
+                    setTimeout(() => {
+                        backgroundVideo.pause();
+                    }, 1000);
+                }
+                
                 updateDisplay();
             }
         }, 1000);
@@ -46,6 +63,10 @@ function toggleTimer() {
         clearInterval(timerId);
         timerId = null;
         startButton.textContent = 'Start';
+        backgroundVideo.classList.remove('video-playing');
+        setTimeout(() => {
+            backgroundVideo.pause();
+        }, 1000);
     }
 }
 
@@ -57,6 +78,12 @@ function resetTimer() {
     totalTime = timeLeft;
     startButton.textContent = 'Start';
     modeText.textContent = 'Work Time';
+    
+    // Reset video
+    backgroundVideo.classList.remove('video-playing');
+    setTimeout(() => {
+        backgroundVideo.pause();
+    }, 1000);
     
     // Reset button colors
     startButton.classList.remove('rest-mode');
@@ -74,6 +101,17 @@ function toggleMode() {
     totalTime = timeLeft;
     modeText.textContent = isWorkTime ? 'Work Time' : 'Break Time';
     toggleModeButton.textContent = isWorkTime ? 'Switch to Break' : 'Switch to Work';
+    
+    // Handle video
+    if (isWorkTime && timerId !== null) {
+        backgroundVideo.play();
+        backgroundVideo.classList.add('video-playing');
+    } else {
+        backgroundVideo.classList.remove('video-playing');
+        setTimeout(() => {
+            backgroundVideo.pause();
+        }, 1000);
+    }
     
     // Update button colors
     if (isWorkTime) {

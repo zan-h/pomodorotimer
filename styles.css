@@ -156,4 +156,39 @@ h1 {
     outline: none;
     border-color: #4299e1;
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.intention-setter {
+    margin: 1rem auto 1.5rem;
+    max-width: 600px;
+}
+
+.intention-setter input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    text-align: center;
+    color: #2d3748;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.intention-setter input:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.intention-display {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin-bottom: 1rem;
+    font-style: italic;
+    min-height: 1.5rem;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem;
+    border-radius: 8px;
 } 

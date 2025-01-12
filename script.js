@@ -13,6 +13,8 @@ const progressBar = document.getElementById('progress');
 const workDurationInput = document.getElementById('workDuration');
 const breakDurationInput = document.getElementById('breakDuration');
 const backgroundVideo = document.getElementById('background-video');
+const intentionInput = document.getElementById('intention');
+const intentionDisplay = document.getElementById('intention-display');
 
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
@@ -158,6 +160,13 @@ breakDurationInput.addEventListener('change', () => {
         timeLeft = breakDurationInput.value * 60;
         totalTime = timeLeft;
         updateDisplay();
+    }
+});
+
+intentionInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        intentionDisplay.textContent = intentionInput.value;
+        intentionInput.blur();
     }
 });
 
